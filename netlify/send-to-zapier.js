@@ -1,267 +1,54 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>MVA — Nieuwe lead</title>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { font-family: 'Roboto', sans-serif; background: #f4f4f4; min-height: 100vh; padding-bottom: 40px; }
-.top-bar { background: #1B2A5C; padding: 16px 20px; display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 10; }
-.top-bar-dot { width: 9px; height: 9px; border-radius: 50%; background: #E8631A; flex-shrink: 0; }
-.top-bar h1 { font-size: 16px; font-weight: 500; color: #fff; }
-.top-bar .sub { font-size: 12px; color: rgba(255,255,255,0.55); margin-left: auto; }
-.container { max-width: 480px; margin: 0 auto; padding: 16px 16px 0; }
-.card { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 12px; border: 1px solid #e8e8e8; }
-.section-label { font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
-.req-star { color: #E8631A; }
-.name-grid { display: grid; grid-template-columns: 1fr 72px 1fr; gap: 8px; margin-bottom: 10px; }
-.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.field { display: flex; flex-direction: column; gap: 4px; }
-.field label { font-size: 11px; color: #888; }
-.field input { height: 40px; padding: 0 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; font-family: 'Roboto', sans-serif; color: #1a1a1a; background: #fff; width: 100%; transition: border-color 0.15s; }
-.field input:focus { outline: none; border-color: #1B2A5C; box-shadow: 0 0 0 3px rgba(27,42,92,0.08); }
-.btn-group { display: flex; flex-wrap: wrap; gap: 7px; }
-.btn-opt { padding: 7px 14px; border-radius: 20px; border: 1px solid #ddd; font-size: 12px; font-weight: 500; font-family: 'Roboto', sans-serif; cursor: pointer; background: #fff; color: #444; transition: all 0.15s; user-select: none; }
-.btn-opt:active { transform: scale(0.96); }
-.btn-opt.sel-type { background: #E8631A; color: #fff; border-color: #E8631A; }
-.btn-opt.sel-status-otd { background: #C6EFCE; color: #375623; border-color: #92C57A; }
-.btn-opt.sel-status-lopend { background: #DDEBF7; color: #1F4E79; border-color: #9DC3E6; }
-.btn-opt.sel-status-termijn { background: #FFF2CC; color: #7F6000; border-color: #FFD966; }
-.btn-opt.sel-status-niet { background: #FCE4D6; color: #9C0006; border-color: #F4B183; }
-.btn-opt.sel-bron { background: #1B2A5C; color: #fff; border-color: #1B2A5C; }
-.btn-opt.sel-makelaar { background: #E8631A; color: #fff; border-color: #E8631A; }
-.bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
-.fee-wrap { display: flex; align-items: center; gap: 6px; }
-.fee-prefix { font-size: 15px; color: #888; font-weight: 500; }
-.fee-wrap input { flex: 1; height: 40px; padding: 0 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; font-weight: 500; font-family: 'Roboto', sans-serif; color: #1a1a1a; background: #fff; }
-.fee-wrap input:focus { outline: none; border-color: #1B2A5C; }
-.monique-label { font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
-.toggle-row { display: flex; gap: 6px; }
-.toggle-btn { padding: 7px 16px; border-radius: 20px; border: 1px solid #ddd; font-size: 12px; font-weight: 500; font-family: 'Roboto', sans-serif; cursor: pointer; background: #fff; color: #888; transition: all 0.15s; }
-.toggle-btn.active-nee { background: #f0f0f0; color: #888; border-color: #ccc; }
-.toggle-btn.active-ja { background: #C6EFCE; color: #375623; border-color: #92C57A; }
-.notities-field { display: flex; flex-direction: column; gap: 4px; }
-.notities-field label { font-size: 11px; color: #888; }
-.notities-field input { height: 40px; padding: 0 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; font-family: 'Roboto', sans-serif; color: #1a1a1a; background: #fff; width: 100%; }
-.notities-field input:focus { outline: none; border-color: #1B2A5C; }
-.divider { height: 1px; background: #f0f0f0; margin: 12px 0; }
-.save-btn { display: block; width: calc(100% - 32px); margin: 0 16px 12px; padding: 14px; background: #E8631A; color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; font-family: 'Roboto', sans-serif; cursor: pointer; }
-.save-btn:disabled { opacity: 0.6; }
-.feedback { display: none; margin: 0 16px 16px; padding: 12px 16px; border-radius: 10px; font-size: 14px; }
-.feedback.success { background: #C6EFCE; color: #375623; }
-.feedback.error { background: #FCE4D6; color: #9C0006; }
-</style>
-</head><body>
-<div class="top-bar">
-  <div class="top-bar-dot"></div>
-  <h1>Nieuwe lead</h1>
-  <span class="sub" id="today"></span>
-</div>
-<div class="container">
+const ZAPIER_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/16836879/uj1jl58/';
+const CLOZE_API_KEY  = 'Rbeeq8-TT48QkVCbIIwEOf-cdX2-NFWLjB-S0-bQPwGE';
+const CLOZE_USER     = 'toncoffeng@makelaarsvan.nl';
 
-  <div class="card">
-    <div class="section-label">Naam <span class="req-star">*</span></div>
-    <div class="name-grid">
-      <div class="field"><label>Voornaam</label><input type="text" id="voornaam" placeholder="Anna" autocomplete="off"></div>
-      <div class="field"><label>Tussenvoegsel</label><input type="text" id="tussenv" placeholder="van" autocomplete="off"></div>
-      <div class="field"><label>Achternaam</label><input type="text" id="achternaam" placeholder="Dam" autocomplete="off"></div>
-    </div>
-    <div class="contact-grid">
-      <div class="field"><label>Telefoon</label><input type="tel" id="telefoon" placeholder="06 12345678" autocomplete="off"></div>
-      <div class="field"><label>E-mail</label><input type="email" id="email" placeholder="anna@mail.com" autocomplete="off"></div>
-    </div>
-  </div>
+exports.handler = async (event) => {
+    if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
+    let payload;
+    try { payload = JSON.parse(event.body); }
+    catch(e) { return { statusCode: 400, body: 'Invalid JSON' }; }
+    const results = {};
 
-  <div class="card">
-    <div class="section-label">Type opdracht <span class="req-star">*</span></div>
-    <div class="btn-group" id="type-group">
-      <button class="btn-opt" data-val="Aankoop" onclick="pick('type-group',this,'sel-type')">Aankoop</button>
-      <button class="btn-opt" data-val="Verkoop" onclick="pick('type-group',this,'sel-type')">Verkoop</button>
-      <button class="btn-opt" data-val="Aan- en verkoop" onclick="pick('type-group',this,'sel-type')">Aan- en verkoop</button>
-      <button class="btn-opt" data-val="Hypotheeklead" onclick="pick('type-group',this,'sel-type')">Hypotheeklead</button>
-      <button class="btn-opt" data-val="Overig" onclick="pick('type-group',this,'sel-type')">Overig</button>
-    </div>
-  </div>
+    if (payload.makelaar === 'Wilma Out') {
+          try {
+                  const zr = await fetch(ZAPIER_WEBHOOK, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                  });
+                  results.zapier = zr.status;
+          } catch(e) { results.zapier_error = e.message; }
+    }
 
-  <div class="card">
-    <div class="section-label">Status <span class="req-star">*</span></div>
-    <div class="btn-group" id="status-group">
-      <button class="btn-opt sel-status-lopend" data-val="Lopend" onclick="pickStatus(this)">Lopend</button>
-      <button class="btn-opt" data-val="OTD" onclick="pickStatus(this)">OTD</button>
-      <button class="btn-opt" data-val="Op termijn" onclick="pickStatus(this)">Op termijn</button>
-      <button class="btn-opt" data-val="Definitief niet" onclick="pickStatus(this)">Definitief niet</button>
-    </div>
-  </div>
+    if (payload.makelaar !== 'Wilma Out') {
+          try {
+                  const desc = [
+                            'Type: ' + (payload.type_opdracht || ''),
+                            'Status: ' + (payload.status || ''),
+                            'Fee: EUR' + (payload.fee || ''),
+                            'Bron: ' + (payload.bron || ''),
+                            'Makelaar: ' + (payload.makelaar || ''),
+                            'Notities: ' + (payload.notities || ''),
+                            'Datum: ' + (payload.datum || '')
+                          ].join(' | ');
+                  const person = { description: desc };
+                  if (payload.voornaam) person.first = payload.voornaam;
+                  if (payload.achternaam) person.last = [payload.tussenvoegsel, payload.achternaam].filter(Boolean).join(' ');
+                  if (payload.email) person.emails = [{ content: payload.email, isprimary: true }];
+                  if (payload.telefoon) person.phones = [{ content: payload.telefoon }];
+                  const url = 'https://api.cloze.com/v1/people/create?user=' + encodeURIComponent(CLOZE_USER) + '&api_key=' + CLOZE_API_KEY;
+                  const cr = await fetch(url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ people: [person] })
+                  });
+                  const cdata = await cr.json();
+                  results.cloze = cr.status;
+                  results.cloze_errorcode = cdata.errorcode;
+                  results.cloze_message = cdata.message;
+                  results.cloze_id = cdata.data && cdata.data[0] ? cdata.data[0].id : null;
+          } catch(e) { results.cloze_error = e.message; }
+    }
 
-  <div class="card">
-    <div class="section-label">Bron</div>
-    <div class="btn-group" id="bron-group">
-      <button class="btn-opt" data-val="Ontmoeting" onclick="pick('bron-group',this,'sel-bron')">Ontmoeting</button>
-      <button class="btn-opt" data-val="Doorverwijzing" onclick="pick('bron-group',this,'sel-bron')">Doorverwijzing</button>
-      <button class="btn-opt" data-val="Kantoor lead" onclick="pick('bron-group',this,'sel-bron')">Kantoor lead</button>
-      <button class="btn-opt" data-val="Lead via collega" onclick="pick('bron-group',this,'sel-bron')">Lead via collega</button>
-      <button class="btn-opt" data-val="Funda" onclick="pick('bron-group',this,'sel-bron')">Funda</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="bottom-row">
-      <div>
-        <div class="monique-label">Fee (€)</div>
-        <div class="fee-wrap">
-          <span class="fee-prefix">€</span>
-          <input type="number" id="fee" placeholder="5000" min="0">
-        </div>
-      </div>
-      <div>
-        <div class="monique-label">Doorgestuurd naar Monique</div>
-        <div class="toggle-row">
-          <button class="toggle-btn active-nee" id="btn-nee" onclick="setMonique(false)">Nee</button>
-          <button class="toggle-btn" id="btn-ja" onclick="setMonique(true)">Ja</button>
-        </div>
-      </div>
-    </div>
-    <div class="divider"></div>
-    <div class="notities-field">
-      <label>Notities</label>
-      <input type="text" id="notities" placeholder="Korte aantekening...">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="section-label">Makelaar <span class="req-star">*</span></div>
-    <div class="btn-group" id="makelaar-group">
-      <button class="btn-opt" data-val="Anthonie Schilder" onclick="pick('makelaar-group',this,'sel-makelaar')">Anthonie</button>
-      <button class="btn-opt" data-val="Filipe Bataglia" onclick="pick('makelaar-group',this,'sel-makelaar')">Filipe</button>
-      <button class="btn-opt" data-val="Gert Jan Mulder" onclick="pick('makelaar-group',this,'sel-makelaar')">Gert Jan</button>
-      <button class="btn-opt" data-val="Jan Jaap ten Arve" onclick="pick('makelaar-group',this,'sel-makelaar')">Jan Jaap</button>
-      <button class="btn-opt" data-val="Jori Netiv" onclick="pick('makelaar-group',this,'sel-makelaar')">Jori</button>
-      <button class="btn-opt" data-val="Mathias Elias" onclick="pick('makelaar-group',this,'sel-makelaar')">Mathias</button>
-      <button class="btn-opt" data-val="Maurits Rodermond" onclick="pick('makelaar-group',this,'sel-makelaar')">Maurits R</button>
-      <button class="btn-opt" data-val="Maurits van Leeuwen" onclick="pick('makelaar-group',this,'sel-makelaar')">Maurits vL</button>
-      <button class="btn-opt" data-val="Pelle Freijsen" onclick="pick('makelaar-group',this,'sel-makelaar')">Pelle</button>
-      <button class="btn-opt" data-val="Rogier de Vries" onclick="pick('makelaar-group',this,'sel-makelaar')">Rogier</button>
-      <button class="btn-opt" data-val="Wilma Out" onclick="pick('makelaar-group',this,'sel-makelaar')">Wilma</button>
-    </div>
-  </div>
-
-  <button class="save-btn" id="save-btn" onclick="saveLead()">Lead opslaan</button>
-  <div class="feedback" id="feedback"></div>
-
-</div><script>
-const SUPABASE_URL = 'https://ehqtyhoeubchcwfavdzr.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVocXR5aG9ldWJjaGN3ZmF2ZHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyODYyMzQsImV4cCI6MjA5MDg2MjIzNH0.U533iReRXhdcB6kv6HxDmO_-JK12HLmyerRKmgL6PAQ';
-
-document.getElementById('today').textContent = new Date().toLocaleDateString('nl-NL', {weekday:'short', day:'numeric', month:'long'});
-let moniqueVal = false;
-
-function pick(groupId, el, cls) {
-  document.getElementById(groupId).querySelectorAll('.btn-opt').forEach(b => b.classList.remove(cls));
-  el.classList.add(cls);
-}
-
-const statusClsMap = { 'Lopend':'sel-status-lopend', 'OTD':'sel-status-otd', 'Op termijn':'sel-status-termijn', 'Definitief niet':'sel-status-niet' };
-
-function pickStatus(el) {
-  document.getElementById('status-group').querySelectorAll('.btn-opt').forEach(b => {
-    Object.values(statusClsMap).forEach(c => b.classList.remove(c));
-  });
-  el.classList.add(statusClsMap[el.dataset.val] || '');
-}
-
-function setMonique(val) {
-  moniqueVal = val;
-  document.getElementById('btn-ja').className = val ? 'toggle-btn active-ja' : 'toggle-btn';
-  document.getElementById('btn-nee').className = val ? 'toggle-btn' : 'toggle-btn active-nee';
-}
-
-function getSelected(groupId) {
-  const el = document.querySelector('#' + groupId + ' .btn-opt[class*="sel-"]');
-  return el ? el.dataset.val : '';
-}
-
-function showFeedback(type, msg) {
-  const el = document.getElementById('feedback');
-  el.className = 'feedback ' + type;
-  el.textContent = msg;
-  el.style.display = 'block';
-  if (type === 'success') setTimeout(() => { el.style.display = 'none'; }, 4000);
-}
-
-function resetForm() {
-  ['voornaam','tussenv','achternaam','telefoon','email','fee','notities'].forEach(id => document.getElementById(id).value = '');
-  setMonique(false);
-  document.getElementById('type-group').querySelectorAll('.btn-opt').forEach(b => b.classList.remove('sel-type'));
-  document.getElementById('bron-group').querySelectorAll('.btn-opt').forEach(b => b.classList.remove('sel-bron'));
-  document.getElementById('makelaar-group').querySelectorAll('.btn-opt').forEach(b => b.classList.remove('sel-makelaar'));
-  document.getElementById('status-group').querySelectorAll('.btn-opt').forEach(b => {
-    Object.values(statusClsMap).forEach(c => b.classList.remove(c));
-  });
-  document.querySelector('#status-group .btn-opt[data-val="Lopend"]').classList.add('sel-status-lopend');
-}
-
-async function saveLead() {
-  const voornaam = document.getElementById('voornaam').value.trim();
-  const achternaam = document.getElementById('achternaam').value.trim();
-  const type = getSelected('type-group');
-  const status = getSelected('status-group');
-  const makelaar = getSelected('makelaar-group');
-
-  if (!voornaam && !achternaam) { showFeedback('error','Vul minimaal een naam in.'); return; }
-  if (!type) { showFeedback('error','Kies een type opdracht.'); return; }
-  if (!status) { showFeedback('error','Kies een status.'); return; }
-  if (!makelaar) { showFeedback('error','Kies jouw naam.'); return; }
-
-  const btn = document.getElementById('save-btn');
-  btn.disabled = true;
-  btn.textContent = 'Bezig met opslaan...';
-
-  const payload = {
-    voornaam,
-    tussenvoegsel: document.getElementById('tussenv').value.trim(),
-    achternaam,
-    telefoon: document.getElementById('telefoon').value.trim(),
-    email: document.getElementById('email').value.trim(),
-    type_opdracht: type,
-    status,
-    bron: getSelected('bron-group'),
-    fee: parseFloat(document.getElementById('fee').value) || null,
-    naar_monique: moniqueVal,
-    notities: document.getElementById('notities').value.trim(),
-    makelaar,
-    datum: new Date().toISOString().split('T')[0],
-  };
-
-  let ok = true;
-  try {
-    const res = await fetch(SUPABASE_URL + '/rest/v1/leads', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + SUPABASE_ANON, 'Prefer': 'return=minimal' },
-      body: JSON.stringify(payload),
-    });
-    if (!res.ok) { console.error('Supabase fout:', await res.text()); ok = false; }
-  } catch(e) { console.error('Supabase error:', e); ok = false; }
-
-  try {
-    await fetch('/.netlify/functions/send-to-zapier', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-  } catch(e) { console.warn('Zapier proxy fout:', e); }
-
-  btn.disabled = false;
-  btn.textContent = 'Lead opslaan';
-
-  const naam = [voornaam, document.getElementById('tussenv').value.trim(), achternaam].filter(Boolean).join(' ');
-  if (ok) {
-    showFeedback('success', '✓ Lead ' + naam + ' opgeslagen!');
-    resetForm();
-  } else {
-    showFeedback('error', 'Er ging iets mis. Probeer opnieuw.');
-  }
-}
-</script>
-</body>
-</html>
+    return { statusCode: 200, body: JSON.stringify({ ok: true, results }) };
+};
