@@ -39,22 +39,7 @@
   .toggle-btn { padding: 7px 16px; border-radius: 20px; border: 1px solid #ddd; font-size: 12px; font-weight: 500; font-family: 'Roboto', sans-serif; cursor: pointer; background: #fff; color: #888; transition: all 0.15s; }
   .toggle-btn.active-nee { background: #f0f0f0; color: #888; border-color: #ccc; }
   .toggle-btn.active-ja { background: #C6EFCE; color: #375623; border-color: #92C57A; }
-  .notities-field { display: flex; flex-direction: column; gap: 4px; }
-  .notities-field label { font-size: 11px; color: #888; }
-  .notities-field input { height: 40px; padding: 0 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; font-family: 'Roboto', sans-serif; color: #1a1a1a; background: #fff; width: 100%; }
-  .notities-field input:focus { outline: none; border-color: #1B2A5C; }
-  .divider { height: 1px; background: #f0f0f0; margin: 12px 0; }
-  .save-btn { width: 100%; height: 50px; background: #E8631A; color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 500; font-family: 'Roboto', sans-serif; cursor: pointer; margin-top: 4px; transition: background 0.15s; letter-spacing: 0.02em; }
-  .save-btn:hover { background: #c84f0e; }
-  .save-btn:active { transform: scale(0.98); }
-  .save-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
-  .feedback { display: none; border-radius: 10px; padding: 14px 16px; font-size: 13px; font-weight: 500; text-align: center; margin-top: 10px; }
-  .feedback.success { background: #C6EFCE; color: #375623; }
-  .feedback.error { background: #FCE4D6; color: #9C0006; }
-  .req-star { color: #E8631A; }
-</style>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-</head><body>
+  .notities-field { display: flex; flex-direction: column; gap: 4<body>
 <div class="top-bar">
   <div class="top-bar-dot"></div>
   <h1>Nieuwe lead</h1>
@@ -136,7 +121,6 @@
 </div><script>
   const SUPABASE_URL   = 'https://ehqtyhoeubchcwfavdzr.supabase.co';
   const SUPABASE_ANON  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVocXR5aG9ldWJjaGN3ZmF2ZHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyODYyMzQsImV4cCI6MjA5MDg2MjIzNH0.U533iReRXhdcB6kv6HxDmO_-JK12HLmyerRKmgL6PAQ';
-  const ZAPIER_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/16836879/uj11h9n/';
   const MAKELAAR       = 'Wilma';
 
   document.getElementById('today').textContent =
@@ -234,24 +218,14 @@
     } catch(e) { console.error('Supabase error:', e); ok = false; }
 
     try {
-      await fetch(ZAPIER_WEBHOOK, {
+      await fetch('/.netlify/functions/send-to-zapier', {
         method : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body   : JSON.stringify(payload),
       });
-    } catch(e) { console.warn('Zapier webhook fout:', e); }
+    } catch(e) { console.warn('Zapier proxy fout:', e); }
 
     btn.disabled = false;
     btn.textContent = 'Lead opslaan';
 
-    const naam = [voornaam, document.getElementById('tussenv').value.trim(), achternaam].filter(Boolean).join(' ');
-    if (ok) {
-      showFeedback('success', 'Opgeslagen: ' + naam + ' · ' + type + ' · ' + status);
-      resetForm();
-    } else {
-      showFeedback('error', 'Er ging iets mis. Probeer opnieuw.');
-    }
-  }
-</script>
-</body>
-</html>
+    const naa
